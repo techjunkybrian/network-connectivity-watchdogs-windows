@@ -13,6 +13,8 @@ Small PowerShell watchdogs that restart a Windows laptop when Wi-Fi or Ethernet 
 
 Each watchdog checks that its connection type has an active adapter and that internet access works. Microsoft's or Google's connectivity check can satisfy the internet test. An internet outage can trigger a restart even if the local Wi-Fi or Ethernet link is still active.
 
+The log records connection changes, check errors, and a once-a-minute heartbeat. During an outage, the heartbeat includes the elapsed outage time.
+
 Install only the watchdog for the connection you want to monitor. If you install both, loss of either adapter can trigger a restart even when the other connection still has internet access.
 
 ## Requirements
@@ -70,7 +72,7 @@ $OfflineMinutes = 3
 $PollSeconds = 15
 ```
 
-Run its installer again after editing so the updated monitor is copied to `C:\ProgramData`.
+Run its installer again after editing so the updated monitor is copied to `C:\ProgramData` and the running watchdog is restarted.
 
 ## Troubleshooting
 

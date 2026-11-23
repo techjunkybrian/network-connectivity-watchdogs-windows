@@ -27,6 +27,10 @@ if (-not (Test-Path -LiteralPath $sourceMonitor)) {
     throw "Monitor script not found: $sourceMonitor"
 }
 
+if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
+    Stop-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
+}
+
 $null = New-Item -ItemType Directory -Path $installDirectory -Force
 Copy-Item -LiteralPath $sourceMonitor -Destination $monitorPath -Force
 

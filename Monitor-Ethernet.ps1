@@ -52,10 +52,35 @@ function Test-EthernetConnectivity {
 
 $null = New-Item -ItemType Directory -Path (Split-Path -Parent $LogPath) -Force
 Write-Log 'Watchdog started.'
+try {
+    Add-Type -AssemblyName System.Net.Http -ErrorAction Stop
+} catch {
+    Write-Log ("Could not load System.Net.Http: {0}" -f $_.Exception.Message)
+    throw
+}
 $offlineSince = $null
+$lastHeartbeat = Get-Date
 
 while ($true) {
-    $connected = Test-EthernetConnectivity
+    try {
+        $connected = Test-EthernetConnectivity
+    } catch {
+        Write-Log ("Connectivity check error: {0}" -f $_.Exception.Message)
+        $connected = $false
+    }
+
+    if (((Get-Date) - $lastHeartbeat).TotalMinutes -ge 1) {
+        if ($connected) {
+            Write-Log 'Heartbeat: connectivity check succeeded.'
+        } elseif ($null -ne $offlineSince) {
+            $outageMinutes = ((Get-Date) - $offlineSince).TotalMinutes
+            Write-Log ("Heartbeat: connectivity check failed; outage duration {0:N1} minutes." -f $outageMinutes)
+        } else {
+            Write-Log 'Heartbeat: connectivity check failed.'
+        }
+        $lastHeartbeat = Get-Date
+    }
+
     if ($connected) {
         if ($null -ne $offlineSince) {
             Write-Log 'Connectivity restored; outage timer reset.'
