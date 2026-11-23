@@ -8,8 +8,8 @@ Small PowerShell watchdogs that restart a Windows laptop when Wi-Fi or Ethernet 
 
 | Connection type | Install script | Uninstall command | Log |
 | --- | --- | --- | --- |
-| Wi-Fi | `Install-WifiWatchdog.ps1` | `.Install-WifiWatchdog.ps1 -Uninstall` | `C:\ProgramData\WifiWatchdog\watchdog.log` |
-| Ethernet | `Install-EthernetWatchdog.ps1` | `.Install-EthernetWatchdog.ps1 -Uninstall` | `C:\ProgramData\EthernetWatchdog\watchdog.log` |
+| Wi-Fi | `Install-WifiWatchdog.ps1` | `.\Install-WifiWatchdog.ps1 -Uninstall` | `C:\ProgramData\WifiWatchdog\watchdog.log` |
+| Ethernet | `Install-EthernetWatchdog.ps1` | `.\Install-EthernetWatchdog.ps1 -Uninstall` | `C:\ProgramData\EthernetWatchdog\watchdog.log` |
 
 Each watchdog checks that its connection type has an active adapter and that internet access works. Microsoft's or Google's connectivity check can satisfy the internet test. An internet outage can trigger a restart even if the local Wi-Fi or Ethernet link is still active.
 
@@ -29,7 +29,13 @@ Install only the watchdog for the connection you want to monitor. If you install
 
 1. Download or clone this repository.
 2. Open **Windows PowerShell as Administrator** in the downloaded folder.
-3. Run the installer for the connection type you want to monitor. For Wi-Fi:
+3. If PowerShell blocks the script because script execution is disabled, allow scripts for this window only:
+
+   ```powershell
+   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+   ```
+
+   This does not change the system-wide execution policy. Then run the installer for the connection type you want to monitor. For Wi-Fi:
 
    ```powershell
    .\Install-WifiWatchdog.ps1
@@ -53,9 +59,7 @@ Get-ScheduledTask -TaskName 'Ethernet Connectivity Watchdog'
 
 ## Uninstall
 
-Open an elevated PowerShell window in the downloaded folder and run:
-
-Run the matching uninstall command from the table above. This removes that watchdog's scheduled task and installed copy, including its log file.
+Open an elevated PowerShell window in the downloaded folder and run the matching uninstall command from the table above. This removes that watchdog's scheduled task and installed copy, including its log file.
 
 ## Configuration
 
