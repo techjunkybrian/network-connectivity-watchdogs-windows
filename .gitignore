@@ -1,0 +1,10 @@
+# Local editor and operating-system files
+.DS_Store
+Thumbs.db
+*.user
+*.suo
+
+# PowerShell editor/test artifacts
+*.ps1~
+*.tmp
+*.log
