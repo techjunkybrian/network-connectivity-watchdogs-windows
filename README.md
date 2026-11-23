@@ -61,7 +61,23 @@ Get-ScheduledTask -TaskName 'Ethernet Connectivity Watchdog'
 
 ## Uninstall
 
-Open an elevated PowerShell window in the downloaded folder and run the matching uninstall command from the table above. This removes that watchdog's scheduled task and installed copy, including its log file.
+Open an elevated PowerShell window in the downloaded folder. If PowerShell blocks script execution, allow scripts for this window only:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+```
+
+Then run the command for the watchdog you want to remove:
+
+```powershell
+.\Install-WifiWatchdog.ps1 -Uninstall
+```
+
+```powershell
+.\Install-EthernetWatchdog.ps1 -Uninstall
+```
+
+The bypass applies only to the current PowerShell window and does not change the system-wide execution policy. Each command removes that watchdog's scheduled task and installed copy, including its log file.
 
 ## Configuration
 
