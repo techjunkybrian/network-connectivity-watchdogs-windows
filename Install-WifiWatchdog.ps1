@@ -39,6 +39,7 @@ $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatt
 
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger `
     -Principal $principal -Settings $settings -Description 'Restarts Windows after Wi-Fi/internet connectivity is unavailable for 3 continuous minutes.' -Force | Out-Null
+Start-ScheduledTask -TaskName $taskName
 
-Write-Host "Installed. The watchdog starts at boot and checks connectivity every 15 seconds."
+Write-Host "Installed and started. The watchdog also starts at boot and checks connectivity every 15 seconds."
 Write-Host "Log file: $installDirectory\watchdog.log"

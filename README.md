@@ -47,7 +47,7 @@ Install only the watchdog for the connection you want to monitor. If you install
    .\Install-EthernetWatchdog.ps1
    ```
 
-The installer copies its monitor under `C:\ProgramData` and registers a startup task named **WiFi Connectivity Watchdog** or **Ethernet Connectivity Watchdog**. The task runs as `SYSTEM`, starts at boot without requiring sign-in, and is allowed to run on battery.
+The installer copies its monitor under `C:\ProgramData`, registers a startup task named **WiFi Connectivity Watchdog** or **Ethernet Connectivity Watchdog**, and starts the task immediately. It also starts automatically at boot without requiring sign-in and is allowed to run on battery.
 
 To confirm the task is registered:
 
